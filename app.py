@@ -43,18 +43,77 @@ def extrair_dados():
 # Rota que salva os dados no Supabase
 @app.route('/salvar', methods=['POST'])
 def salvar():
+    codigo = request.form['Cod_acao']
+    
+    # Verificar se essa ação já está cadastrada (pelo código)
+    resultado = supabase.table('acoes').select("Cod_acao").eq("Cod_acao", codigo).execute()
+
+    if resultado.data:
+        # Já existe, retorna JSON com erro
+        return jsonify({'erro': f"A ação '{codigo}' já foi cadastrada!"})
+
+    # Se não existir, continua com o cadastro
     dados = {
-        'Cod_acao': request.form['Cod_acao'],
+        'Cod_acao': codigo,
         'Valor_atual': float(request.form['Valor_atual']),
         'Quantidade_acao': int(request.form['Quantidade_acao']),
         'Yeald': float(request.form['Yeald']),
         'Divdendos': float(request.form['Divdendos']),
         'PatrimonioAnual': float(request.form['PatrimonioAnual']),
-        'Patrimonio_mensal': float(request.form['Patrimonio_mensal'])
+        'Patrimonio_mensal': float(request.form['Patrimonio_mensal']),
     }
 
     supabase.table('acoes').insert(dados).execute()
-    return redirect(url_for('index'))
+    return jsonify({'sucesso': True})
+
+
+@app.route('/buscar_acao')
+def buscar_acao():
+    codigo = request.args.get('cod')
+    resultado = supabase.table('acoes').select("*").eq("Cod_acao", codigo).limit(1).execute()
+
+    if resultado.data:
+        return jsonify(resultado.data[0])
+    else:
+        return jsonify({'erro': 'Ação não encontrada'}), 404
+    
+
+
+@app.route("/verificar_existente", methods=["POST"])
+def verificar_existente():
+    data = request.get_json()
+    cod = data.get("Cod_acao")
+    if not cod:
+        return jsonify({"erro": "Código da ação não informado"}), 400
+
+    resultado = supabase.table("acoes").select("*").eq("Cod_acao", cod).execute()
+
+    if resultado.data:
+        return jsonify({"existe": True})
+    else:
+        return jsonify({"existe": False})
+
+    
+
+
+
+@app.route('/atualizar_quantidade', methods=['POST'])
+def atualizar_quantidade():
+    cod = request.form['Cod_acao']
+    nova_qtd = int(request.form['Quantidade_acao'])
+
+    try:
+        supabase.table('acoes')\
+            .update({'Quantidade_acao': nova_qtd})\
+            .eq('Cod_acao', cod)\
+            .execute()
+        return jsonify({"sucesso": True})
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400
+
+
+
+
 
 # Função que faz scraping da página do StatusInvest
 def raspar_statusinvest(url):
