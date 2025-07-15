@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+    <link rel="stylesheet" href="/static/formulario.css">
     <script src="/static/formualrio.js"></script>
     <meta charset="UTF-8" />
     <title>Inserir Ação</title>
 </head>
+
 <body>
     <h1>Inserir Ação</h1>
 
@@ -16,29 +19,37 @@
         <input type="text" id="codgacaoInput" name="Cod_acao" required />
 
         <label>Valor Atual (R$):</label>
-        <input type="number" id="valorInput" name="Valor_atual" step="0.01" required />
+        <input type="number" id="valorInput" name="Valor_atual" step="0.01" required readonly/>
 
         <label>Dividend Yield (%):</label>
-        <input type="number" id="dyInput" name="Yeald" step="0.01" required />
+        <input type="number" id="dyInput" name="Yeald" step="0.01" required readonly/>
 
         <label>Quantidade de Ações:</label>
         <input type="number" name="Quantidade_acao" required />
 
         <label>Patrimônio Anual (R$):</label>
-       <input type="number" id="patrimonioAnualInput" name="PatrimonioAnual" step="0.01" readonly>
+        <input type="number" id="patrimonioAnualInput" name="PatrimonioAnual" step="0.01" readonly>
 
-        
+
 
         <label>Dividendos (R$):</label>
-        <input type="number" name="Divdendos" step="0.01" required />
+        <input type="number" name="Divdendos" step="0.01" required  readonly/>
 
         <label>Patrimonio Mensal (R$):</label>
         <input type="number" id="patrimonioMensalInput" name="Patrimonio_mensal" step="0.01" readonly>
         <br>
+        
+        <br>
+
 
         <button type="submit">Salvar</button>
     </form>
+    <div class="verAcoesDIV">
+        <h2>Verificar ações</h2>
+        <a href="acoes">clique aqui</a>
+    </div>
 
- 
+
 </body>
+
 </html>

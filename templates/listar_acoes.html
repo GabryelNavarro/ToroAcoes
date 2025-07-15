@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br"> 
+    
+<head>
+    <meta charset="UTF-8">
+    <title>Todas as Ações</title>
+</head>
+<body>
+    
+    <h1>Todas as Ações Cadastradas</h1>
+
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Valor Atual</th>
+                <th>Yield</th>
+                <th>Quantidade</th>
+                <th>Dividendos</th>
+                <th>Patrimônio Anual</th>
+                <th>Patrimônio Mensal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for acao in acoes %}
+            <tr>
+
+                <td>{{ acao.Cod_acao }}</td>
+                <td>R$ {{ "{:,.2f}".format(acao.Valor_atual | float).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                <td>{{ "{:,.2f}".format(acao.Yeald | float).replace(",", "X").replace(".", ",").replace("X", ".") }}%</td>
+                <td>{{ acao.Quantidade_acao }}</td>
+                <td>R$ {{ "{:,.2f}".format(acao.Divdendos | float).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                <td>R$ {{ "{:,.2f}".format(acao.PatrimonioAnual | float).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                <td>R$ {{ "{:,.2f}".format(acao.Patrimonio_mensal | float).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Total Anual: R$ {{ "{:,.2f}".format(total_anual).replace(",", "X").replace(".", ",").replace("X", ".") }}</h2>
+    <h2>Total Mensal: R$ {{ "{:,.2f}".format(total_mensal).replace(",", "X").replace(".", ",").replace("X", ".") }}</h2>
+
+</body>
+</html>

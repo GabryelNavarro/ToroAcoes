@@ -8,30 +8,46 @@ document.addEventListener("DOMContentLoaded", function () {
     const patrimonioAnualInput = document.getElementById("patrimonioAnualInput");
     const patrimonioMensalInput = document.getElementById("patrimonioMensalInput");
     const patrimonioInput = document.getElementById("patrimonioInput");
+    const investimentoTotalInput = document.getElementById("investimentoTotalInput");
     const form = document.querySelector("form");
 
     let modoEdicao = false;
 
     function calcularValores() {
-        const dy = parseFloat(dyInput.value.replace(",", ".")) || 0;
         const valorAtual = parseFloat(valorInput.value.replace(",", ".")) || 0;
         const quantidade = parseFloat(qtdInput.value) || 0;
 
-        const dividendos = (dy / 100) * valorAtual;
-        dividendosInput.value = dividendos.toFixed(2);
+        // Dividendos por ação (vem preenchido apenas ao extrair da URL)
+        const dividendosPorAcao = parseFloat(dividendosInput.value.replace(",", ".")) || 0;
 
-        const patrimonioAnual = dividendos * quantidade;
+        // Patrimônio Anual = dividendosPorAcao * quantidade
+        const patrimonioAnual = dividendosPorAcao * quantidade;
         patrimonioAnualInput.value = patrimonioAnual.toFixed(2);
 
+        // Patrimônio Mensal = Patrimônio Anual / 12
         const patrimonioMensal = patrimonioAnual / 12;
         patrimonioMensalInput.value = patrimonioMensal.toFixed(2);
+
+        // Investimento Total = quantidade * valorAtual
+        const investimentoTotal = quantidade * valorAtual;
+        investimentoTotalInput.value = investimentoTotal.toFixed(2);
     }
 
     function preencherDados(data) {
         if (data.nome) codgacaoInput.value = data.nome;
         if (data.valor) valorInput.value = data.valor;
         if (data.dividend_yield) dyInput.value = data.dividend_yield;
+
+        // Calcula dividendos por ação e preenche o campo fixo
+        if (data.valor && data.dividend_yield) {
+            const dy = parseFloat(data.dividend_yield.toString().replace(",", ".")) || 0;
+            const valorAtual = parseFloat(data.valor.toString().replace(",", ".")) || 0;
+            const dividendos = (dy / 100) * valorAtual;
+            dividendosInput.value = dividendos.toFixed(2);
+        }
+
         if (data.patrimonio) patrimonioInput.value = data.patrimonio;
+
         calcularValores();
     }
 
@@ -51,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Verifica se já existe ANTES de preencher
             fetch("/verificar_existente", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -62,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (res.existe) {
                     alert("⚠️ Esta ação já está cadastrada!\nVocê pode apenas editar a quantidade.");
                 }
-                preencherDados(data); // Preenche mesmo se já existe, pois talvez queira editar
+                preencherDados(data);
             });
         })
         .catch((e) => {
@@ -71,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    [dyInput, valorInput, qtdInput].forEach(input => {
+    [valorInput, qtdInput].forEach(input => {
         input.addEventListener("input", calcularValores);
     });
 
@@ -95,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .then((dados) => {
                             valorInput.value = dados.Valor_atual;
                             dyInput.value = dados.Yeald;
-                            dividendosInput.value = dados.Divdendos;
+                            dividendosInput.value = dados.Dividendos;
                             patrimonioAnualInput.value = dados.PatrimonioAnual;
                             patrimonioMensalInput.value = dados.Patrimonio_mensal;
 

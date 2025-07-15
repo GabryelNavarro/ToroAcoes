@@ -24,6 +24,21 @@ app = Flask(__name__)
 def index():
     return render_template('formulario.html')
 
+
+@app.route('/acoes')
+def listar_acoes():
+    resultado = supabase.table("acoes").select("*").execute()
+    acoes = resultado.data
+
+    # Soma total do PatrimonioAnual
+    total_anual = sum(float(acao.get("PatrimonioAnual", 0) or 0) for acao in acoes)
+    total_mensal = total_anual / 12  # ✅ Divide o total anual por 12
+
+    return render_template("listar_acoes.html", acoes=acoes, total_anual=total_anual, total_mensal=total_mensal)
+
+    
+
+
 # Rota para extrair dados automaticamente ao digitar a URL
 @app.route('/extrair_dados', methods=['POST'])
 def extrair_dados():
@@ -44,15 +59,16 @@ def extrair_dados():
 @app.route('/salvar', methods=['POST'])
 def salvar():
     codigo = request.form['Cod_acao']
-    
+
     # Verificar se essa ação já está cadastrada (pelo código)
-    resultado = supabase.table('acoes').select("Cod_acao").eq("Cod_acao", codigo).execute()
+    resultado = supabase.table('acoes').select("*").eq("Cod_acao", codigo).order('id', desc=True).limit(1).execute()
 
     if resultado.data:
-        # Já existe, retorna JSON com erro
-        return jsonify({'erro': f"A ação '{codigo}' já foi cadastrada!"})
+        # Já existe, pega o último investimento total cadastrado
+        ultimo_investimento = resultado.data[0].get('Investimento_total', 0)
+        return jsonify({'erro': f"A ação '{codigo}' já foi cadastrada!", 'ultimo_investimento': ultimo_investimento})
 
-    # Se não existir, continua com o cadastro
+    # Se não existir, continua com o cadastro usando o valor do formulário
     dados = {
         'Cod_acao': codigo,
         'Valor_atual': float(request.form['Valor_atual']),
@@ -61,6 +77,8 @@ def salvar():
         'Divdendos': float(request.form['Divdendos']),
         'PatrimonioAnual': float(request.form['PatrimonioAnual']),
         'Patrimonio_mensal': float(request.form['Patrimonio_mensal']),
+  
+
     }
 
     supabase.table('acoes').insert(dados).execute()
@@ -95,21 +113,35 @@ def verificar_existente():
 
     
 
-
-
 @app.route('/atualizar_quantidade', methods=['POST'])
 def atualizar_quantidade():
     cod = request.form['Cod_acao']
     nova_qtd = int(request.form['Quantidade_acao'])
 
-    try:
-        supabase.table('acoes')\
-            .update({'Quantidade_acao': nova_qtd})\
-            .eq('Cod_acao', cod)\
-            .execute()
-        return jsonify({"sucesso": True})
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 400
+    resultado = supabase.table('acoes').select("*").eq("Cod_acao", cod).limit(1).execute()
+    if not resultado.data:
+        return jsonify({"erro": "Ação não encontrada"}), 404
+
+    acao = resultado.data[0]
+
+    valor_atual = float(acao.get('Valor_atual', 0))
+    dividendos_por_acao = float(acao.get('Divdendos', 0))  # ← já vem do banco como fixo
+
+    patrimonio_anual = round(dividendos_por_acao * nova_qtd, 2)
+    patrimonio_mensal = round(patrimonio_anual / 12, 2)
+    investimento_total = round(valor_atual * nova_qtd, 2)
+
+    supabase.table('acoes')\
+        .update({
+            'Quantidade_acao': nova_qtd,
+            'PatrimonioAnual': patrimonio_anual,
+            'Patrimonio_mensal': patrimonio_mensal,
+            'Investimento_total': investimento_total
+        })\
+        .eq('Cod_acao', cod)\
+        .execute()
+
+    return jsonify({"sucesso": True})
 
 
 
