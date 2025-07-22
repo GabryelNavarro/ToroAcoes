@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Investimento Total = quantidade * valorAtual
         const investimentoTotal = quantidade * valorAtual;
         investimentoTotalInput.value = investimentoTotal.toFixed(2);
+              valor = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
     }
 
     function preencherDados(data) {

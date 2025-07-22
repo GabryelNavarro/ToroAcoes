@@ -10,43 +10,43 @@
 
 <body>
     <h1>Inserir Ação</h1>
+    <br>
+     <a href="acoes">Verificar ações <img src="/static/img/arrow_circle_right_34dp_E3E3E3_FILL0_wght400_GRAD0_opsz40.png" alt="" class="acoes"></a>
+
 
     <form method="POST" action="/salvar">
-        <label>URL da ação:</label>
+        <label>URL da ação <img src="/static/img/link_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="link" class="url_img"></label>
         <input type="text" id="urlInput" name="url" required />
 
-        <label>Código da Ação:</label>
+        <label>Código da Ação <img src="/static/img/verified_user_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="cod" class="codg_acao"></label>
         <input type="text" id="codgacaoInput" name="Cod_acao" required />
 
-        <label>Valor Atual (R$):</label>
+        <label>Valor Atual<img src="/static/img/attach_money_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="preco" class="preco"></label>
         <input type="number" id="valorInput" name="Valor_atual" step="0.01" required readonly/>
 
-        <label>Dividend Yield (%):</label>
+        <label>Dividend Yield<img src="/static/img/line_axis_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="grafic" class="grafic"></label>
         <input type="number" id="dyInput" name="Yeald" step="0.01" required readonly/>
 
-        <label>Quantidade de Ações:</label>
-        <input type="number" name="Quantidade_acao" required />
+      
 
-        <label>Patrimônio Anual (R$):</label>
+        <label>Patrimônio Anual<img src="/static/img/attach_money_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" class="preco"> </label>
         <input type="number" id="patrimonioAnualInput" name="PatrimonioAnual" step="0.01" readonly>
 
 
 
-        <label>Dividendos (R$):</label>
+        <label>Dividendos<img src="/static/img/attach_money_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" class="preco"></label>
         <input type="number" name="Divdendos" step="0.01" required  readonly/>
 
-        <label>Patrimonio Mensal (R$):</label>
+        <label>Patrimonio Mensal<img src="/static/img/attach_money_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" class="preco"></label>
         <input type="number" id="patrimonioMensalInput" name="Patrimonio_mensal" step="0.01" readonly>
-        <br>
-        
-        <br>
 
+          <label>Quantidade de Ações <img src="/static/img/heart_plus_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="qtd" class="qtd"></label>
+        <input type="number" name="Quantidade_acao" required />
+    
 
-        <button type="submit">Salvar</button>
+        <button type="submit">Salvar <img src="/static/img/save_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="save" class="save"></button>
     </form>
-    <div class="verAcoesDIV">
-        <h2>Verificar ações</h2>
-        <a href="acoes">clique aqui</a>
+   
     </div>
 
 
