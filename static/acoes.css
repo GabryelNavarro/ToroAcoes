@@ -16,9 +16,12 @@ table{
     margin-left: 25px;
     margin-top: 5px;
     border: 1px solid rgba(0, 0, 0, 0.355);
-   background-image: linear-gradient(to bottom,#42117e,#0501fc6f);
+      background-image: linear-gradient(to left, blue, rgba(255, 0, 0, 0.734));
+      
+
    box-shadow: 0px 0px 16px rgba(255, 255, 255, 0.199);
    border-radius: 5px;
+   border: 1px solid black;
 
    
     
