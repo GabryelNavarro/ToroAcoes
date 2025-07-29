@@ -1,0 +1,74 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body h1{
+    text-align: center;
+    padding: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-transform: uppercase;
+    font-size: 16pt;
+    color: white;
+}
+
+table{
+    margin-left: 25px;
+    margin-top: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.355);
+   background-image: linear-gradient(to bottom,#42117e,#0501fc6f);
+   box-shadow: 0px 0px 16px rgba(255, 255, 255, 0.199);
+   border-radius: 5px;
+
+   
+    
+   
+}
+body{
+    background-color: rgba(0, 0, 0, 0.938);
+}
+
+table thead tr{
+    padding: 10px;
+    color: white;
+    text-align: center;
+    
+}
+
+table thead tr th{
+    padding: 5px;
+   text-align: center;
+   font-family: monospace;
+   font-size: 10pt;
+   font-style: italic;
+   text-transform: uppercase;
+   letter-spacing: 2px;
+   background-image: linear-gradient(to left, #3434b8,rgb(0, 0, 0));
+   padding-left: 8px;
+   border-radius: 2px;
+  
+   
+ 
+}
+tbody tr td{
+   padding-left: 20PX;
+   text-align: center;
+   color: white;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   font-size: 10pt;
+  
+  
+}
+
+h2{
+    margin-left: 25px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 12pt;
+    font-style: italic;
+    color: white;
+    display: inline;
+    
+}

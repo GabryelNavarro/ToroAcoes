@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br"> 
+<html lang="pt-br">
+<link rel="stylesheet" href="/static/acoes.css">
     
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,7 @@
     
     <h1>Todas as Ações Cadastradas</h1>
 
-    <table border="1" cellspacing="0" cellpadding="5">
+    <table  cellspacing="0" cellpadding="0">
         <thead>
             <tr>
                 <th>Código</th>
@@ -36,6 +37,8 @@
             {% endfor %}
         </tbody>
     </table>
+    <br>
+
 
     <h2>Total Anual: R$ {{ "{:,.2f}".format(total_anual).replace(",", "X").replace(".", ",").replace("X", ".") }}</h2>
     <h2>Total Mensal: R$ {{ "{:,.2f}".format(total_mensal).replace(",", "X").replace(".", ",").replace("X", ".") }}</h2>
